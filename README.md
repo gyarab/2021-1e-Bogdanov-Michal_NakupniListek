@@ -1,1 +1,1 @@
-# 2021-1e-Bogdanov-Michal_NakupniListek
+# 2021-1e-Bogdanov-NakupniListek
