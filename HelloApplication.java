@@ -1,9 +1,13 @@
 package com.example.nakupnilistek;
 
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -13,18 +17,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
- @Override
+
+    @Override
     public void start(Stage stage) {
-        Label l = new Label("NESPLNĚNO");
-        Label l2 = new Label("NESPLNĚNO");
-        Label l3 = new Label("NESPLNĚNO");
-        Label l4 = new Label("NESPLNĚNO");
-        Label l5 = new Label("NESPLNĚNO");
-        Label l6 = new Label("NESPLNĚNO");
-        Label l7 = new Label("NESPLNĚNO");
-        Label l8 = new Label("NESPLNĚNO");
-        Label l9 = new Label("NESPLNĚNO");
-        Label l10 = new Label("NESPLNĚNO");
+        Label l = new Label();
+        Label l2 = new Label();
+        Label l3 = new Label();
+        Label l4 = new Label();
+        Label l5 = new Label();
+        Label l6 = new Label();
+        Label l7 = new Label();
+        Label l8 = new Label();
+        Label l9 = new Label();
+        Label l10 = new Label();
+
 
         TextField text = new TextField();
         TextField text2 = new TextField();
@@ -48,8 +54,9 @@ public class HelloApplication extends Application {
         CheckBox check9 = new CheckBox();
         CheckBox check10 = new CheckBox();
 
-        Button button = new Button(" + ");
-        button.relocate(190, 300);
+        Button button = new Button(" přidat ");
+        button.relocate(300, 300);
+        button.setStyle("-fx-background-color: #FFFF0F;");
 
         HBox line = new HBox(check, text);
         HBox line2 = new HBox(check2, text2);
@@ -81,106 +88,173 @@ public class HelloApplication extends Application {
         TabPane pane = new TabPane(panel,panel2);
         Scene scene = new Scene(pane, 400, 480);
 
-        //jak presout to do splneno:https://www.tutorialkart.com/javafx/javafx-textfield/
-        //https://stackoverflow.com/questions/20273820/how-to-copy-content-from-one-tab-to-another-in-javafx
-        //https://www.educba.com/javafx-textfield/
+        l.setText("chybí: " + text.getText());
+        l2.setText("chybí: " + text2.getText());
+        l3.setText("chybí: " + text3.getText());
+        l4.setText("chybí: " + text4.getText());
+        l5.setText("chybí: " + text5.getText());
+        l6.setText("chybí: " + text6.getText());
+        l7.setText("chybí: " + text7.getText());
+        l8.setText("chybí: " + text8.getText());
+        l9.setText("chybí: " + text9.getText());
+        l10.setText("chybí: " + text10.getText());
+
+        //aby se to opakovalo
+
+
+            //jak presout to do splneno:https://www.tutorialkart.com/javafx/javafx-textfield/
+            //https://stackoverflow.com/questions/20273820/how-to-copy-content-from-one-tab-to-another-in-javafx
+            //https://www.educba.com/javafx-textfield/
         check.setOnAction((e) -> {
-            l.setText(text.getText());check7.setOnAction((e2) -> {
-                l.setText("NESPLNĚNO");
-                check.setOnAction((e3) -> {
-                    l.setText(text.getText());
-                });
-            });
-        });
-        check2.setOnAction((e) -> {
-            l2.setText(text2.getText());
-            check2.setOnAction((e2) -> {
-                l2.setText("NESPLNĚNO");
-                check2.setOnAction((e3) -> {
-                    l2.setText(text2.getText());
-                });
-            });
-        });
-        check3.setOnAction((e) -> {
-            l3.setText(text3.getText());
-            check3.setOnAction((e2) -> {
-                l3.setText("NESPLNĚNO");
-                check3.setOnAction((e3) -> {
-                    l3.setText(text3.getText());
+                l.setText(text.getText());
+                check.setOnAction((e2) -> {
+                    l.setText("chybí: " + text.getText());
+                    check.setOnAction((e3) -> {
+                        l.setText(text.getText());
+                    });
                 });
             });
 
-        });
-        check4.setOnAction((e) -> {
-            l4.setText(text4.getText());
-            check4.setOnAction((e2) -> {
-                l4.setText("NESPLNĚNO");
-                check4.setOnAction((e3) -> {
-                    l4.setText(text4.getText());
+
+        check2.setOnAction((e) -> {
+                l2.setText(text2.getText());
+                check2.setOnAction((e2) -> {
+                    l2.setText("chybí: " + text2.getText());
+                    check2.setOnAction((e3) -> {
+                        l2.setText(text2.getText());
+                    });
                 });
             });
-        });
-        check5.setOnAction((e) -> {
-            l5.setText(text5.getText());
-            check5.setOnAction((e2) -> {
-                l5.setText("NESPLNĚNO");
-                check5.setOnAction((e3) -> {
-                    l5.setText(text5.getText());
+
+
+            check3.setOnAction((e) -> {
+                l3.setText(text3.getText());
+                check3.setOnAction((e2) -> {
+                    l3.setText("chybí: " + text3.getText());
+                    check3.setOnAction((e3) -> {
+                        l3.setText(text3.getText());
+                    });
+                });
+
+            });
+
+
+            check4.setOnAction((e) -> {
+                l4.setText(text4.getText());
+                check4.setOnAction((e2) -> {
+                    l4.setText("chybí: " + text4.getText());
+                    check4.setOnAction((e3) -> {
+                        l4.setText(text4.getText());
+                    });
                 });
             });
-        });
-        check6.setOnAction((e) -> {
-            l6.setText(text6.getText());
-            check6.setOnAction((e2) -> {
-                l6.setText("NESPLNĚNO");
-                check6.setOnAction((e3) -> {
-                    l6.setText(text6.getText());
+
+
+            check5.setOnAction((e) -> {
+                l5.setText(text5.getText());
+                check5.setOnAction((e2) -> {
+                    l5.setText("chybí: " + text5.getText());
+                    check5.setOnAction((e3) -> {
+                        l5.setText(text5.getText());
+                    });
                 });
             });
-        });
-        check7.setOnAction((e) -> {
-            l7.setText(text7.getText());
-            check7.setOnAction((e2) -> {
-                l7.setText("NESPLNĚNO");
-                check7.setOnAction((e3) -> {
-                    l7.setText(text7.getText());
+
+
+            check6.setOnAction((e) -> {
+                l6.setText(text6.getText());
+                check6.setOnAction((e2) -> {
+                    l6.setText("chybí: " + text6.getText());
+                    check6.setOnAction((e3) -> {
+                        l6.setText(text6.getText());
+                    });
                 });
             });
-        });
-        check8.setOnAction((e) -> {
-            l8.setText(text8.getText());
-            check8.setOnAction((e2) -> {
-                l8.setText("NESPLNĚNO");
-                check8.setOnAction((e3) -> {
-                    l8.setText(text8.getText());
+
+
+            check7.setOnAction((e) -> {
+                l7.setText(text7.getText());
+                check7.setOnAction((e2) -> {
+                    l7.setText("chybí: " + text7.getText());
+                    check7.setOnAction((e3) -> {
+                        l7.setText(text7.getText());
+                    });
                 });
             });
-        });
-        check9.setOnAction((e) -> {
-            l9.setText(text9.getText());
-            check9.setOnAction((e2) -> {
-                l9.setText("NESPLNĚNO");
-                check9.setOnAction((e3) -> {
-                    l9.setText(text9.getText());
+
+
+            check8.setOnAction((e) -> {
+                l8.setText(text8.getText());
+                check8.setOnAction((e2) -> {
+                    l8.setText("chybí: " + text8.getText());
+                    check8.setOnAction((e3) -> {
+                        l8.setText(text8.getText());
+                    });
                 });
             });
-        });
-        check10.setOnAction((e) -> {
-            l10.setText(text10.getText());
-            check10.setOnAction((e2) -> {
-                l10.setText("NESPLNĚNO");
-                check7.setOnAction((e3) -> {
-                    l10.setText(text10.getText());
+
+
+            check9.setOnAction((e) -> {
+                l9.setText(text9.getText());
+                check9.setOnAction((e2) -> {
+                    l9.setText("chybí: " + text9.getText());
+                    check9.setOnAction((e3) -> {
+                        l9.setText(text9.getText());
+                    });
                 });
             });
-        });
+
+            check10.setOnAction((e) -> {
+                l10.setText(text10.getText());
+                check10.setOnAction((e2) -> {
+                    l10.setText("chybí: " + text10.getText());
+                    check10.setOnAction((e3) -> {
+                        l10.setText(text10.getText());
+                    });
+                });
+            });
+
 
         button.setOnAction((e) -> {
-          //  TextField text11 = new TextField();
-          //  CheckBox check11 = new CheckBox();
-          //  HBox line11 = new HBox(check11, text11);
-          //  new VBox(line,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11);
+            Label l11 = new Label();
+            TextField text11 = new TextField();
+            CheckBox check11 = new CheckBox();
+            HBox line11 = new HBox(check11, text11);
+            l11.setText("chybí: " + text11.getText());
+            col.getChildren().addAll(line11);
+            col2.getChildren().addAll(l11);
+            check11.setOnAction((e2) -> {
+                l11.setText(text11.getText());
+                check11.setOnAction((e3) -> {
+                    l11.setText("chybí: " + text11.getText());
+                    check11.setOnAction((e4) -> {
+                        l11.setText(text11.getText());
+                    });
+                });
+            });
         });
+
+        pane.setOnKeyPressed((e)->{
+            if(e.getCode() == KeyCode.CONTROL.SHIFT.P) {
+                Label l11 = new Label();
+                TextField text11 = new TextField();
+                CheckBox check11 = new CheckBox();
+                HBox line11 = new HBox(check11, text11);
+                l11.setText("chybí: " + text11.getText());
+                col.getChildren().addAll(line11);
+                col2.getChildren().addAll(l11);
+                check11.setOnAction((e2) -> {
+                    l11.setText(text11.getText());
+                    check11.setOnAction((e3) -> {
+                        l11.setText("chybí: " + text11.getText());
+                        check11.setOnAction((e4) -> {
+                            l11.setText(text11.getText());
+                        });
+                    });
+                });
+            }
+        });
+        stage.getIcons().add(new Image("D:\\repository\\RocnikovaPrace\\MichalBogd\\ikonka.png"));
         stage.setScene(scene);
         stage.setTitle("Nákupní seznam");
         stage.show();
