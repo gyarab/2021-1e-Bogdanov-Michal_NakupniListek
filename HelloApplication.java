@@ -32,6 +32,7 @@ public class HelloApplication extends Application {
         Label l10 = new Label();
 
 
+
         TextField text = new TextField();
         TextField text2 = new TextField();
         TextField text3 = new TextField();
@@ -99,9 +100,6 @@ public class HelloApplication extends Application {
         l9.setText("chybí: " + text9.getText());
         l10.setText("chybí: " + text10.getText());
 
-        //aby se to opakovalo
-
-
             //jak presout to do splneno:https://www.tutorialkart.com/javafx/javafx-textfield/
             //https://stackoverflow.com/questions/20273820/how-to-copy-content-from-one-tab-to-another-in-javafx
             //https://www.educba.com/javafx-textfield/
@@ -120,9 +118,7 @@ public class HelloApplication extends Application {
                 l2.setText(text2.getText());
                 check2.setOnAction((e2) -> {
                     l2.setText("chybí: " + text2.getText());
-                    check2.setOnAction((e3) -> {
-                        l2.setText(text2.getText());
-                    });
+
                 });
             });
 
@@ -138,7 +134,6 @@ public class HelloApplication extends Application {
 
             });
 
-
             check4.setOnAction((e) -> {
                 l4.setText(text4.getText());
                 check4.setOnAction((e2) -> {
@@ -148,7 +143,6 @@ public class HelloApplication extends Application {
                     });
                 });
             });
-
 
             check5.setOnAction((e) -> {
                 l5.setText(text5.getText());
@@ -160,7 +154,6 @@ public class HelloApplication extends Application {
                 });
             });
 
-
             check6.setOnAction((e) -> {
                 l6.setText(text6.getText());
                 check6.setOnAction((e2) -> {
@@ -170,7 +163,6 @@ public class HelloApplication extends Application {
                     });
                 });
             });
-
 
             check7.setOnAction((e) -> {
                 l7.setText(text7.getText());
@@ -182,7 +174,6 @@ public class HelloApplication extends Application {
                 });
             });
 
-
             check8.setOnAction((e) -> {
                 l8.setText(text8.getText());
                 check8.setOnAction((e2) -> {
@@ -192,7 +183,6 @@ public class HelloApplication extends Application {
                     });
                 });
             });
-
 
             check9.setOnAction((e) -> {
                 l9.setText(text9.getText());
@@ -214,25 +204,24 @@ public class HelloApplication extends Application {
                 });
             });
 
-
-        button.setOnAction((e) -> {
-            Label l11 = new Label();
-            TextField text11 = new TextField();
-            CheckBox check11 = new CheckBox();
-            HBox line11 = new HBox(check11, text11);
-            l11.setText("chybí: " + text11.getText());
-            col.getChildren().addAll(line11);
-            col2.getChildren().addAll(l11);
-            check11.setOnAction((e2) -> {
-                l11.setText(text11.getText());
-                check11.setOnAction((e3) -> {
-                    l11.setText("chybí: " + text11.getText());
-                    check11.setOnAction((e4) -> {
-                        l11.setText(text11.getText());
+            button.setOnAction((e) -> {
+                Label l11 = new Label();
+                TextField text11 = new TextField();
+                CheckBox check11 = new CheckBox();
+                HBox line11 = new HBox(check11, text11);
+                l11.setText("chybí: " + text11.getText());
+                col.getChildren().addAll(line11);
+                col2.getChildren().addAll(l11);
+                check11.setOnAction((e2) -> {
+                    l11.setText(text11.getText());
+                    check11.setOnAction((e3) -> {
+                        l11.setText("chybí: " + text11.getText());
+                        check11.setOnAction((e4) -> {
+                            l11.setText(text11.getText());
+                        });
                     });
                 });
             });
-        });
 
         pane.setOnKeyPressed((e)->{
             if(e.getCode() == KeyCode.CONTROL.SHIFT.P) {
