@@ -31,8 +31,6 @@ public class HelloApplication extends Application {
         Label l9 = new Label();
         Label l10 = new Label();
 
-
-
         TextField text = new TextField();
         TextField text2 = new TextField();
         TextField text3 = new TextField();
@@ -56,7 +54,9 @@ public class HelloApplication extends Application {
         CheckBox check10 = new CheckBox();
 
         Button button = new Button(" přidat ");
+        Button btn = new Button(" odebrat ");
         button.relocate(300, 300);
+        btn.relocate(300,310);
         button.setStyle("-fx-background-color: #FFFF0F;");
 
         HBox line = new HBox(check, text);
@@ -75,7 +75,7 @@ public class HelloApplication extends Application {
         col.relocate(110,10);
         col2.relocate(110,10);
 
-        AnchorPane safe = new AnchorPane(col, button);
+        AnchorPane safe = new AnchorPane(col, button, btn);
         AnchorPane safe2 = new AnchorPane(col2);
         Tab panel = new Tab("Potřeba koupit" );
         Tab panel2 = new Tab("Splněno");
@@ -222,6 +222,53 @@ public class HelloApplication extends Application {
                     });
                 });
             });
+        btn.setOnAction((e)->{
+            line10.getChildren().remove(check10);
+            line10.getChildren().remove(text10);
+            btn.setOnAction((e2)->{
+                line9.getChildren().remove(check9);
+                line9.getChildren().remove(text9);
+                btn.setOnAction((e3)->{
+                    line8.getChildren().remove(check8);
+                    line8.getChildren().remove(text8);
+                    btn.setOnAction((e4)->{
+                        line7.getChildren().remove(check7);
+                        line7.getChildren().remove(text7);
+                        btn.setOnAction((e5)->{
+                            line6.getChildren().remove(check6);
+                            line6.getChildren().remove(text6);
+                            btn.setOnAction((e6)->{
+                                line5.getChildren().remove(check5);
+                                line5.getChildren().remove(text5);
+                                btn.setOnAction((e7)->{
+                                    line4.getChildren().remove(check4);
+                                    line4.getChildren().remove(text4);
+                                    btn.setOnAction((e8)->{
+                                        line3.getChildren().remove(check3);
+                                        line3.getChildren().remove(text3);
+                                        btn.setOnAction((e9)->{
+                                            line2.getChildren().remove(check2);
+                                            line2.getChildren().remove(text2);
+                                            safe.getChildren().remove(btn);
+                                        });
+                                    });
+
+
+                                });
+
+                            });
+
+
+                        });
+
+                    });
+
+                });
+
+            });
+
+        });
+
 
         pane.setOnKeyPressed((e)->{
             if(e.getCode() == KeyCode.CONTROL.SHIFT.P) {
