@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-
+//obrazek nahrat tam kde je fxml
     @Override
     public void start(Stage stage) {
         Label l = new Label();
@@ -99,6 +99,37 @@ public class HelloApplication extends Application {
         l8.setText("chybí: " + text8.getText());
         l9.setText("chybí: " + text9.getText());
         l10.setText("chybí: " + text10.getText());
+        
+        text.setOnKeyPressed((e)->{
+            l.setText("chybí: " + text.getText());
+        });
+         text2.setOnKeyPressed((e)->{
+            l2.setText("chybí: " + text2.getText());
+        });
+         text3.setOnKeyPressed((e)->{
+            l3.setText("chybí: " + text3.getText());
+        });
+         text4.setOnKeyPressed((e)->{
+            l4.setText("chybí: " + text4.getText());
+        });
+         text5.setOnKeyPressed((e)->{
+            l5.setText("chybí: " + text5.getText());
+        });
+         text6.setOnKeyPressed((e)->{
+            l6.setText("chybí: " + text6.getText());
+        });
+         text7.setOnKeyPressed((e)->{
+            l7.setText("chybí: " + text7.getText());
+        });
+         text8.setOnKeyPressed((e)->{
+            l8.setText("chybí: " + text8.getText());
+        });
+         text9.setOnKeyPressed((e)->{
+            l9.setText("chybí: " + text9.getText());
+        });
+         text10.setOnKeyPressed((e)->{
+            l10.setText("chybí: " + text10.getText());
+        });
 
             //jak presout to do splneno:https://www.tutorialkart.com/javafx/javafx-textfield/
             //https://stackoverflow.com/questions/20273820/how-to-copy-content-from-one-tab-to-another-in-javafx
@@ -253,7 +284,6 @@ public class HelloApplication extends Application {
                                         });
                                     });
 
-
                                 });
 
                             });
@@ -290,6 +320,10 @@ public class HelloApplication extends Application {
                 });
             }
         });
+        
+        col.setAlignment(Pos.CENTER);
+        col2.setAlignment(Pos.CENTER);
+        
         stage.getIcons().add(new Image("D:\\repository\\RocnikovaPrace\\MichalBogd\\ikonka.png"));
         stage.setScene(scene);
         stage.setTitle("Nákupní seznam");
