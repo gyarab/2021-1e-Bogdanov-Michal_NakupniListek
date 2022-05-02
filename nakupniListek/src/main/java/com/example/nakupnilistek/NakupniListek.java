@@ -4,196 +4,305 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NakupniListek extends Application {
-    //index pro pole
-    int x = 100;
-    int[] findIndex = new int[x];
-    String[] texts = new String[x];;
-    String getAdress ;
-    //creating label
-    //v panelu splněno
-    Label[] ldone = new Label[x];
-    //v panelu chybí
-    Label[] lmiss = new Label[x];
-    //creating text field
-    TextField[] text = new TextField[x];
-    TextField adress = new TextField();
-    //creating check box
-    CheckBox[] check = new CheckBox[x];
-    //creating buttons
-    //neznam pocet
-    Button btn[] = {new Button("přidat"),new Button("odebrat"),new Button("uložit"),new Button("uložit"),new Button()};
-    //button pro potvrzeni
-    Button[] btn2 = new Button[x];
-    //creating hbox
-    HBox[] line = new HBox[x];
+
+    //creating Arraylist
+    //for string
+    public List<String> data = new ArrayList<String>();
+    //for boolean
+    public List<Boolean> done = new ArrayList<Boolean>();
+
+    //CSV file delimiter
+    private static Character delimiter = ';';
+
     //creating Vboxes
-    VBox[] col = {new VBox(),new VBox(),new VBox(),new VBox(),new VBox(adress, btn[3])};
-    //creating anchorpane
-    AnchorPane safe[] = {new AnchorPane(),new AnchorPane(),new AnchorPane()};
+    //in tab "Potřeba koupit"
+    public VBox colNeeds = new VBox();
+    //in tab "Splněno"
+    public VBox colDone = new VBox();
+    //in tab "Chybí"
+    public VBox colMiss = new VBox();
+
+    //creating anchor pane
+    //in tab "Potřeba koupit"
+    public AnchorPane anchorNeeds = new AnchorPane();
+    //in tab "Splněno"
+    public AnchorPane anchorDone = new AnchorPane();
+    //in tab "Chybí"
+    public  AnchorPane anchorMiss = new AnchorPane();
+
     //creating tab
-    Tab panel[] = {new Tab("Potřeba koupit"),new Tab("Splněno"),new Tab("Chybí")};
-    //creating tabpane
-    TabPane pane = new TabPane(panel[0], panel[1], panel[2]);
+    public Tab panelNeeds = new Tab("Potřeba koupit");
+    public Tab panelDone = new Tab("Splněno");
+    public Tab panelMiss = new Tab("Chybí");
+
+    //creating tabpane and adding tabs in it
+    public TabPane pane = new TabPane(panelNeeds, panelDone, panelMiss);
+
     //creating scrollpane
-    ScrollPane roll[] ={new ScrollPane(),new ScrollPane(),new ScrollPane()};
+    //for tab "Potřeba koupit"
+    public ScrollPane scrollNeeds = new ScrollPane();
+    //for tab"Splněno"
+    public ScrollPane scrollDone = new ScrollPane();
+    //for tab "Chybí"
+    public ScrollPane scrollMiss = new ScrollPane();
+
+
     //creating FileChooser
-    FileChooser filechoose = new FileChooser();
-    //creating scene
-    Scene scene = new Scene(pane,400,480);
-    //creating stage
-    Stage stage1 = new Stage();
+    public FileChooser fileDialog = new FileChooser();
 
-    //some function
-   private void zakladna(){
-        for(int i=0; i < x; i++ ) {
-            //fix null problem https://stackoverflow.com/questions/46246704/javafx-error-on-using-an-array-of-vbox-in-netbeans
-            if (i < 100) {
-                ldone[i] = new Label();
-                lmiss[i] = new Label();
-                text[i] = new TextField();
-                text[i].setPromptText("Zadejte zboži");
-                check[i] = new CheckBox();
-                btn2[i] = new Button("Potvrdit");
-                line[i] = new HBox();
-                line[i].getChildren().addAll(check[i], text[i], btn2[i]);
-                line[i].setAlignment(Pos.CENTER);
-            }
-            if (i < 5) {
-                col[0].getChildren().addAll(line[i]);
-                col[1].getChildren().addAll(ldone[i]);
-                col[2].getChildren().addAll(lmiss[i]);
-            }
-            if(i<3){
-               col[i].relocate(110, 10);
-                // jak dat veci do tabu: https://www.educba.com/javafx-tabpane/
-                //nezavrit panel: https://stackoverflow.com/questions/31531059/how-to-remove-close-button-from-tabs-in-javafx
-                panel[i].setOnCloseRequest(e -> e.consume());
-                roll[i].setContent(safe[i]);
-                panel[i].setContent(roll[i]);
-            }
-        }
+    private void pridat() {
+        pridat(new String[0]);
     }
-    private void pridat(){
-        if (col[0].getChildren().size() < text.length) {
-            col[0].getChildren().addAll(line[col[0].getChildren().size()]);
-            col[1].getChildren().addAll(ldone[col[1].getChildren().size()]);
-            col[2].getChildren().addAll(lmiss[col[2].getChildren().size()]);
-        }
-    }
-    private void odebrat(){
-        if(col[0].getChildren().size() > 1) {
-            for(int i=0; i< 3; i++) {
-                col[i].getChildren().remove(col[i].getChildren().size() - 1);
-            }
-        }
-    }
-    private void potvrdit() {
-        for(int i = 0; i < x;i++) {
-            findIndex[i] = i;
-            int z = (int) Array.get(findIndex, i);
-            btn2[i].setOnAction((e) -> {
-                //jak ziskat index:https://www.geeksforgeeks.org/array-get-method-in-java/
-                texts[z] = text[z].getText();
-                lmiss[z].setText(texts[z]);
-                line[z].getChildren().remove(btn2[z]);
-                check[z].setOnAction((e2)->{
-                    check[z].setSelected(true);
-                    if (check[z].isSelected()) {
-                        ldone[z].setText(texts[z]);
-                        col[2].getChildren().removeAll(lmiss[z]);
-                    }
-                });
-            });
-            //potvrdit
-          text[i].setOnKeyPressed((e) -> {
-                if (e.getCode() == KeyCode.ENTER) {
-                    //jak presunout to do splneno:https://www.tutorialkart.com/javafx/javafx-textfield/
-                    //https://stackoverflow.com/questions/20273820/how-to-copy-content-from-one-tab-to-another-in-javafx
-                    //https://www.educba.com/javafx-textfield/
-                    texts[z] = text[z].getText();
-                    lmiss[z].setText(texts[z]);
-                    line[z].getChildren().remove(btn2[z]);
-                    check[z].setOnAction((e2)->{
-                        check[z].setSelected(true);
-                        if (check[z].isSelected()) {
-                            ldone[z].setText(texts[z]);
-                            col[2].getChildren().remove(lmiss[z]);
-                        }
-                    });
-                }
-            });
+
+    private void pridat(String[] addedProducts) {
+
+        String note = new String();
+        boolean bought = false;
+
+        if (addedProducts.length == 2) {
+            note = addedProducts[0];
+            bought = Boolean.parseBoolean(addedProducts[1]);
         }
 
-    }
-    private void ulozit(){
-       //https://www.tutorialspoint.com/how-to-save-files-using-a-file-chooser-in-javafx
-        filechoose.showSaveDialog(stage1);
-        filechoose.setTitle("Save");
-        filechoose.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Only text files", "*.txt*"));
-    }
-    @Override
-    public void start(Stage stage) {
-        zakladna();
-        potvrdit();
-        //vkladani do poli
-        col[3].getChildren().addAll(btn[0], btn[1], btn[2]);
-        safe[0].getChildren().addAll(col[0],col[3]);
-        safe[1].getChildren().addAll(col[1]);
-        safe[2].getChildren().addAll(col[2]);
+        //data
+        data.add(note);
+        done.add(bought);
 
-        col[0].setAlignment(Pos.CENTER);
-        col[1].setAlignment(Pos.CENTER);
-        col[2].setAlignment(Pos.CENTER);
-        btn[0].setStyle("-fx-background-color: #FFFF0F;");
-        //some functions
-        //pridat
-        btn[0].setOnAction((e)->{
-           pridat();
+        //GUI
+        Label lDone = new Label();
+
+        Label lMiss = new Label();
+
+        TextField text = new TextField();
+        //position of new data
+        text.setId(Integer.toString(data.size() - 1));
+        text.setText(note);
+        text.setPromptText("Zadejte zboži");
+
+        CheckBox check = new CheckBox();
+        check.setSelected(bought);
+
+        Button confirmBtn = new Button("potvrdit");
+
+        HBox line = new HBox(check, text, confirmBtn);
+
+        VBox colOfThings = new VBox();
+        colOfThings.getChildren().addAll(line);
+
+        colNeeds.getChildren().addAll(colOfThings);
+        colDone.getChildren().addAll(lDone);
+        colMiss.getChildren().addAll(lMiss);
+
+        if (check.isSelected()) {
+            line.getChildren().remove(confirmBtn);
+            odskrtnout(check, text, lDone, lMiss);
+        }
+
+        //GUI action
+        confirmBtn.setOnAction((e) -> {
+            potvrdit(check, text, lMiss, lDone, line, confirmBtn);
         });
-        //odebrat
-        btn[1].setOnAction((e) -> {
+        text.setOnAction((e) -> {
+            potvrdit(check, text, lMiss, lDone, line, confirmBtn);
+        });
+    }
+
+    private void odebrat() {
+        if (colNeeds.getChildren().size() > 1) {
+            data.remove(data.size() - 1);
+            done.remove(done.size() - 1);
+            colNeeds.getChildren().remove(colNeeds.getChildren().size() - 1);
+            colDone.getChildren().remove(colDone.getChildren().size() - 1);
+            colMiss.getChildren().remove(colMiss.getChildren().size() - 1);
+        }
+    }
+
+    private void potvrdit(CheckBox check, TextField text, Label lMiss, Label lDone, HBox line, Button confirmBtn) {
+        data.set(Integer.parseInt(text.getId()), text.getText());
+        lMiss.setText(data.get(Integer.parseInt(text.getId())));
+        line.getChildren().remove(confirmBtn);
+        check.setOnAction((e) -> {
+            odskrtnout(check, text, lDone, lMiss);
+        });
+    }
+
+    private void odskrtnout(CheckBox check, TextField text, Label lDone, Label lMiss) {
+        check.setSelected(true);
+        done.set(Integer.parseInt(text.getId()), check.isSelected());
+        lDone.setText(data.get(Integer.parseInt(text.getId())));
+        colMiss.getChildren().remove(lMiss);
+
+    }
+
+    private void ulozit() {
+        fileDialog.setTitle("Save File");
+        fileDialog.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.csv"));
+        File newFile = fileDialog.showSaveDialog(null);
+        if (newFile != null) {
+            try {
+                OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(newFile));
+
+                BufferedWriter bufWriter = new BufferedWriter(writer);
+
+                for (int index = 0; index < data.size(); index++) {
+                    String name = data.get(index);
+                    name = name.replace(delimiter, ',');
+
+                    //ukladani do souboru
+                    bufWriter.write(name);
+                    bufWriter.write(delimiter);
+                    bufWriter.write(String.valueOf(done.get(index)));
+                    bufWriter.newLine();
+                }
+                bufWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void nacist() {
+        fileDialog.setTitle("Load File");
+        fileDialog.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.csv"));
+
+        File selectedFile = fileDialog.showOpenDialog(null);
+
+        if (selectedFile != null) {
+
+            colNeeds.getChildren().clear();
+            colDone.getChildren().clear();
+            colMiss.getChildren().clear();
+            data.clear();
+            done.clear();
+
+            // create a reader
+            //default UTF-8
+            try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
+                // read the file line by line
+                String lineRead;
+                while ((lineRead = br.readLine()) != null) {
+                    // convert line into columns
+                    String[] columns = lineRead.split(delimiter.toString());
+                    pridat(columns);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void ovladaciPrvky() {
+
+        pridat();
+
+        //creating buttons
+        //add new smth
+        Button btnAdd = new Button("přidat");
+        //remove smth
+        Button btnRemove = new Button("odebrat");
+        //save file
+        Button btnSave = new Button("uložit");
+        //load from file
+        Button btnLoad = new Button("načíst");
+
+        //creating hbox
+        HBox lineNextTo = new HBox();
+
+        //creating vbox
+        VBox colOfButtons = new VBox();
+        colOfButtons.getChildren().addAll(btnAdd, btnRemove, btnSave, btnLoad);
+
+        anchorNeeds.getChildren().addAll(lineNextTo);
+        anchorDone.getChildren().addAll(colDone);
+        anchorMiss.getChildren().addAll(colMiss);
+
+        lineNextTo.setAlignment(Pos.CENTER);
+        colDone.relocate(110, 10);
+        colMiss.relocate(110, 10);
+
+        btnAdd.setPrefWidth(75);
+        btnRemove.setPrefWidth(75);
+        btnSave.setPrefWidth(75);
+        btnLoad.setPrefWidth(75);
+
+        panelNeeds.setOnCloseRequest(e -> e.consume());
+        panelDone.setOnCloseRequest(e -> e.consume());
+        panelMiss.setOnCloseRequest(e -> e.consume());
+
+        scrollNeeds.setContent(colNeeds);
+        scrollNeeds.setPrefWidth(275);
+        scrollDone.setContent(anchorDone);
+        scrollMiss.setContent(anchorMiss);
+
+        lineNextTo.getChildren().addAll(colOfButtons, scrollNeeds);
+
+        panelNeeds.setContent(lineNextTo);
+        panelDone.setContent(scrollDone);
+        panelMiss.setContent(scrollMiss);
+
+        //GUI action
+        btnAdd.setOnAction((e) -> {
+            pridat();
+        });
+
+        btnRemove.setOnAction((e) -> {
             odebrat();
         });
-        btn[2].setOnAction((e)->{
+
+        btnSave.setOnAction((e) -> {
             ulozit();
         });
-        //klaves. pridat a odebrat
-        pane.setOnKeyPressed((e)->{
-            if(e.getCode() == KeyCode.CONTROL.P) {
+
+        btnLoad.setOnAction((e) -> {
+            nacist();
+        });
+
+        pane.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.CONTROL.ALT.P) {
                 pridat();
             }
-            if(e.getCode() == KeyCode.DELETE) {
-               odebrat();
+            if (e.getCode() == KeyCode.DELETE) {
+                odebrat();
+            }
+            if (e.getCode() == KeyCode.CONTROL.SHIFT.S) {
+                ulozit();
+            }
+            if (e.getCode() == KeyCode.CONTROL.V) {
+                nacist();
             }
         });
-        //vyresit
-        // jak videt obrazek (1:34:21)https://www.youtube.com/watch?v=9XJicRt_FaI
-        //stage.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("ikonka.png")));
+
+    }
+
+    @Override
+    public void start(Stage stage) {
+
+        ovladaciPrvky();
+
+       java.net.URL imgULR = getClass().getResource("/com/example/nakupnilistek/ikonka.png");
+       Image icon = new Image(String.valueOf(imgULR));
+       stage.getIcons().add(icon);
+        Scene scene = new Scene(pane, 350, 480);
         stage.setScene(scene);
         stage.setTitle("Nákupní seznam");
         stage.show();
-
-
     }
+
     public static void main(String[] args) {
         launch();
     }
